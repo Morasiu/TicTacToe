@@ -3,7 +3,6 @@ import random
 class Tic:
 	i = 1
 	w = 0
-	d = 0
 	def print_board(self):
 		print(' ' + board[0][0] + '|' + board[0][1] + '|' + board[0][2] + '\n',
 		      '-----\n',
@@ -43,40 +42,35 @@ class Tic:
 					position = 9
 
 				o_list.append(position)
-				#print("Tura " + str(self.i))
+				print("Step " + str(self.i) + '\n')
+				self.print_board()
 				self.i += 1
 				break
 
 
 	def win(self):
 		self.w += 1
-		print(self.w)
-		#self.print_board()
-		#print("WYGRANA X!!!")
+		self.print_board()
+		print("X WIN!!!")
 
 	def draw(self):
-		self.d += 0
-		print(self.d)
-		#self.print_board()
-		#print("DRAW (-_-)")
+		self.print_board()
+		print("DRAW (-_-)")
 
 	def score(self):
-		print('Win: ' + str(self.w) + '\n' +
-		      'Draw: ' + str(self.d))
+		print('Win: ' + str(self.w))
 
 if __name__ == '__main__':
 	tic = Tic()
-	def tak():
+	def play():
 		global board
 		global o_list
-		i = 1
 		board = [[" ", " ", " "],
 		         [" ", " ", " "],
 		         [" ", " ", " "]]
 		# who_start = random.randint(0,1)
 		who_start = 1
-		is_finished = False
-		#tic.print_board()
+		tic.print_board()
 		o_list = []
 		if who_start:
 			x = board[1][1] = 'X'
@@ -88,7 +82,7 @@ if __name__ == '__main__':
 				if not 8 in o_list:
 					board[2][1] = 'X'
 					tic.win()
-					# WYGRANA
+					# WIN
 				else:
 					if 1 in o_list:
 						board[2][0] = 'X'
@@ -96,131 +90,128 @@ if __name__ == '__main__':
 						if 3 not in o_list:
 							board[0][2] = 'X'
 							tic.win()
-							# WYGRANA
+							# WIN
 						else:
 							board[1][2] = 'X'
 							tic.o()
 							if 4 not in o_list:
 								board[1][0] = 'X'
 								tic.win()
-								# WYGRANA
+								# WIN
 							else:
 								board[2][2] = 'X'
 								tic.draw()
-								# REMIS
+								# DRAW
 					elif 3 in o_list:
 						board[2][2] = 'X'
 						tic.o()
 						if 1 not in o_list:
 							board[0][2] = 'X'
 							tic.win()
-							# WYGRANA
+							# WIN
 						else:
 							board[1][0] = 'X'
 							tic.o()
 							if 6 not in o_list:
 								board[1][2] = 'X'
 								tic.win()
-								# WYGRANA
+								# WIN
 							else:
 								board[2][0] = 'X'
 								tic.draw()
-								# REMIS
+								# DRAW
 					elif 4 in o_list:
 						board[2][0] = 'X'
 						tic.o()
 						if 3 not in o_list:
 							board[0][2] = 'X'
 							tic.win()
-							# WYGRANA
+							# WIN
 						else:
 							board[2][2] = 'X'
 							tic.o()
 							if 1 not in o_list:
 								board[0][0] = 'X'
 								tic.win()
-								# WYGRANA
+								# WIN
 							else:
 								board[1][2] = 'X'
 								tic.draw()
-								# REMIS
+								# DRAW
 					elif 6 in o_list:
 						board[2][2] = 'X'
 						tic.o()
 						if 1 not in o_list:
 							board[0][0] = 'X'
 							tic.win()
-							# WYGRANA
+							# WIN
 						else:
 							board[2][2] = 'X'
 							tic.o()
 							if 3 not in o_list:
 								board[0][2] = 'X'
 								tic.win()
-								# WYGRANA
+								# WIN
 							else:
 								board[1][0] = 'X'
 								tic.draw()
-								# REMIS
+								# DRAW
 					elif 7 in o_list:
 						board[2][2] = 'X'
 						tic.o()
 						if 1 not in o_list:
 							board[0][0] = 'X'
 							tic.win()
-							# WYGRANA
+							# WIN
 						else:
 							board[1][0] = 'X'
 							tic.o()
 							if 6 not in o_list:
 								board[1][2] = 'X'
 								tic.win()
-								# WYGRANA
+								# WIN
 							else:
 								board[0][2] = 'X'
 								tic.draw()
-								# REMIS
+								# DRAW
 					elif 9 in o_list:
 						board[2][0] = 'X'
 						tic.o()
 						if not 3 in o_list:
 							board[0][2] = 'X'
 							tic.win()
-							# WYGRANA
+							# WIN
 						else:
 							board[1][2] = 'X'
 							tic.o()
 							if  4 not in o_list:
 								board[1][0] = 'X'
 								tic.win()
-								# WYGRANA
+								# WIN
 							else:
 								board[0][0] = 'X'
 								tic.draw()
-								# REMIS
+								# DRAW
 			else:
 				board[0][0] = 'X'
 				tic.o()
 				if 9 not in o_list:
 					board[2][2] = 'X'
 					tic.win()
-					# WYGRANA
+					# WIN
 				else:
 					board[2][0] = 'X'
 					tic.o()
 					if 4 not in o_list:
 						board[1][0] = 'X'
 						tic.win()
-						# WYGRANA
+						# WIN
 					else:
 						board[0][2] = 'X'
 						tic.win()
-						# WYGRANA
+						# WIN
 		else:
 			tic.o()
 			board[1][0] = 'X'
 
-	for x in range(0, 1000000, 1):
-		tak()
-	tic = Tic()
-	tic.score()
+	play()
