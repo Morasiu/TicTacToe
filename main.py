@@ -1,217 +1,149 @@
 import random
 
+from x_algorythm import X
+
+
 class Tic:
-	i = 1
-	w = 0
-	def print_board(self):
-		print(' ' + board[0][0] + '|' + board[0][1] + '|' + board[0][2] + '\n',
-		      '-----\n',
-		      board[1][0] + '|' + board[1][1] + '|' + board[1][2] + '\n',
-		      '-----\n',
-		      board[2][0] + '|' + board[2][1] + '|' + board[2][2] + '\n\n',
-		      '\/\/\/\/\/\/\n')
+  def print_board(self):
+    print(' ' + board[0][0] + '|' + board[0][1] + '|' + board[0][2] + '\n',
+          '-----\n',
+          board[1][0] + '|' + board[1][1] + '|' + board[1][2] + '\n',
+          '-----\n',
+          board[2][0] + '|' + board[2][1] + '|' + board[2][2] + '\n\n',
+          '~~~~~\n')
+    # pass
 
-	def rand(self):
-		rand = random.randint(0, 2)
-		return rand
-
-	def o(self):
-		while True:
-			row = self.rand()
-			col = self.rand()
-			if board[row][col] == ' ':
-				board[row][col] = 'o'
-				position = 0
-				if row == 0 and col == 0:
-					position = 1
-				elif row == 0 and col == 1:
-					position = 2
-				elif row == 0 and col == 2:
-					position = 3
-				elif row == 1 and col == 0:
-					position = 4
-				elif row == 1 and col == 1:
-					position = 5
-				elif row == 1 and col == 2:
-					position = 6
-				elif row == 2 and col == 0:
-					position = 7
-				elif row == 2 and col == 1:
-					position = 8
-				elif row == 2 and col == 2:
-					position = 9
-
-				o_list.append(position)
-				print("Step " + str(self.i) + '\n')
-				self.print_board()
-				self.i += 1
-				break
-
-
-	def win(self):
-		self.w += 1
-		self.print_board()
-		print("X WIN!!!")
-
-	def draw(self):
-		self.print_board()
-		print("DRAW (-_-)")
-
-	def score(self):
-		print('Win: ' + str(self.w))
-
+  def coin_flip(self):
+    rand = random.randint(0, 2)
+    return rand
+  
+  def o_win(self):
+    # Check if o win horizontally
+    for nr in range(0, 3):
+      row = board[nr][0] + board[nr][1] + board[nr][2]
+      if 'ooo' in row:
+        return True
+  
+    # Check if o win vertically
+    for nr in range(0, 3):
+      column = board[0][nr] + board[1][nr] + board[2][nr]
+      if 'ooo' in column:
+        return True
+  
+    # Check if o win diagonally
+    if 'o' in board[1][1]:
+      if 'o' in board[0][0] and 'o' in board[2][2]:
+        return True
+      elif 'o' in board[0][2] and 'o' in board[2][0]:
+        return True
+    
+    return False
+  
+  def get_rand_o(self, board):
+    o = [0, 0]
+    if not self.o_win():
+      while True:
+        o[0] = random.randint(0, 2)
+        o[1] = random.randint(0, 2)
+        
+        if(board[o[0]][o[1]]) == " ":
+          break
+        elif "' '" not in str(board):
+          o = False
+          break
+    else:
+      o = True
+    return o
+    
 if __name__ == '__main__':
-	tic = Tic()
-	def play():
-		global board
-		global o_list
-		board = [[" ", " ", " "],
-		         [" ", " ", " "],
-		         [" ", " ", " "]]
-		# who_start = random.randint(0,1)
-		who_start = 1
-		tic.print_board()
-		o_list = []
-		if who_start:
-			x = board[1][1] = 'X'
-			tic.o()
-			if 8 not in o_list and 2 not in o_list:
-				print()
-				board[0][1] = 'X'
-				tic.o()
-				if not 8 in o_list:
-					board[2][1] = 'X'
-					tic.win()
-					# WIN
-				else:
-					if 1 in o_list:
-						board[2][0] = 'X'
-						tic.o()
-						if 3 not in o_list:
-							board[0][2] = 'X'
-							tic.win()
-							# WIN
-						else:
-							board[1][2] = 'X'
-							tic.o()
-							if 4 not in o_list:
-								board[1][0] = 'X'
-								tic.win()
-								# WIN
-							else:
-								board[2][2] = 'X'
-								tic.draw()
-								# DRAW
-					elif 3 in o_list:
-						board[2][2] = 'X'
-						tic.o()
-						if 1 not in o_list:
-							board[0][2] = 'X'
-							tic.win()
-							# WIN
-						else:
-							board[1][0] = 'X'
-							tic.o()
-							if 6 not in o_list:
-								board[1][2] = 'X'
-								tic.win()
-								# WIN
-							else:
-								board[2][0] = 'X'
-								tic.draw()
-								# DRAW
-					elif 4 in o_list:
-						board[2][0] = 'X'
-						tic.o()
-						if 3 not in o_list:
-							board[0][2] = 'X'
-							tic.win()
-							# WIN
-						else:
-							board[2][2] = 'X'
-							tic.o()
-							if 1 not in o_list:
-								board[0][0] = 'X'
-								tic.win()
-								# WIN
-							else:
-								board[1][2] = 'X'
-								tic.draw()
-								# DRAW
-					elif 6 in o_list:
-						board[2][2] = 'X'
-						tic.o()
-						if 1 not in o_list:
-							board[0][0] = 'X'
-							tic.win()
-							# WIN
-						else:
-							board[2][2] = 'X'
-							tic.o()
-							if 3 not in o_list:
-								board[0][2] = 'X'
-								tic.win()
-								# WIN
-							else:
-								board[1][0] = 'X'
-								tic.draw()
-								# DRAW
-					elif 7 in o_list:
-						board[2][2] = 'X'
-						tic.o()
-						if 1 not in o_list:
-							board[0][0] = 'X'
-							tic.win()
-							# WIN
-						else:
-							board[1][0] = 'X'
-							tic.o()
-							if 6 not in o_list:
-								board[1][2] = 'X'
-								tic.win()
-								# WIN
-							else:
-								board[0][2] = 'X'
-								tic.draw()
-								# DRAW
-					elif 9 in o_list:
-						board[2][0] = 'X'
-						tic.o()
-						if not 3 in o_list:
-							board[0][2] = 'X'
-							tic.win()
-							# WIN
-						else:
-							board[1][2] = 'X'
-							tic.o()
-							if  4 not in o_list:
-								board[1][0] = 'X'
-								tic.win()
-								# WIN
-							else:
-								board[0][0] = 'X'
-								tic.draw()
-								# DRAW
-			else:
-				board[0][0] = 'X'
-				tic.o()
-				if 9 not in o_list:
-					board[2][2] = 'X'
-					tic.win()
-					# WIN
-				else:
-					board[2][0] = 'X'
-					tic.o()
-					if 4 not in o_list:
-						board[1][0] = 'X'
-						tic.win()
-						# WIN
-					else:
-						board[0][2] = 'X'
-						tic.win()
-						# WIN
-		else:
-			tic.o()
-			board[1][0] = 'X'
+  tic = Tic()
+  x = X()
+  print()
+  
+  who_start = 0
+  x_win = 0
+  o_win = 0
+  draw = 0
+  
+  for z in range(0, 1):
+    # who_start = tic.coin_flip() # if 1, them X has first move
+    who_start = 0
+    
+    board = [[" ", " ", " "],
+             [" ", " ", " "],
+             [" ", " ", " "]]
+    
+    if who_start:
+      # print("X starts\n")
+      while True:
+        x_cords = x.get_x(board) #1st is X, 2nd is Y
+        if x_cords == 'x_win':
+          # print('!!!X WIN!!!')
+          x_win += 1
+          break
+        elif not x_cords:
+          # tic.print_board()
+          # print("←X DRAW→")
+          draw += 1
+          break
+        elif x_cords == 'o_win':
+          o_win += 1
+          tic.print_board()
+          break
+        else:
+          board[x_cords[0]][x_cords[1]] = "x"
+          o_cords = tic.get_rand_o(board)  # 1st is X, 2nd is Y
+          if o_cords == True:
+            tic.print_board()
+            print('O WIN :(')
+            o_win += 1
+            break
+          elif not o_cords:
+            # tic.print_board()
+            # print('←O DRAW→')
+            draw += 1
+            break
+          board[o_cords[0]][o_cords[1]] = "o"
+        
+        # tic.print_board()
+    else:
+      print("O starts\n")
+      while True:
+        o_cords = tic.get_rand_o(board)  # 1st is X, 2nd is Y
+        if o_cords == True:
+          # print('!!!O WIN!!!')
+          tic.print_board()
+          o_win += 1
+          break
+        elif not o_cords:
+          tic.print_board()
+          draw += 1
+          # print("←O DRAW→")
+          break
+        else:
+          board[o_cords[0]][o_cords[1]] = "o"
+          x_cords = x.get_x(board)  # 1st is X, 2nd is Y
+          if x_cords == 'x_win':
+            x_win += 1
+            print('X WIN :)')
+            break
+          elif not x_cords:
+            tic.print_board()
+            print('←X DRAW→')
+            draw += 1
+            break
+          elif x_cords == 'o_win':
+            print('O WIN :(')
+            o_win += 1
+            tic.print_board()
+            break
+          board[x_cords[0]][x_cords[1]] = "x"
+          tic.print_board()
+        
+  print('\nx win: ' + str(x_win))
+  print('o win: ' + str(o_win))
+  print('draw:  ' + str(draw))
 
-	play()
+  # else:
+  #   print("O starts")
+
